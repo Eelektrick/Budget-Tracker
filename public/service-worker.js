@@ -23,19 +23,22 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// //Activate will clean up our previous caches
-// self.addEventListener('activate', (event) =>{
-//     console.log("beginning the search for older cached data")
-//     const cacheDuo = [CACHE_NAME, DATA_CACHE_NAME];
-//     event.waitUntil(caches.keys().then(keyList =>{
-//         keyList.map(key => {
-//             if (key !== cacheDuo){
-//                 console.log("cleaning up older iteration of cached data", key);
-//                 return caches.delete(key)
-//             };
-//         });
-//     }));
-// });
+// activate
+self.addEventListener("activate", function(evt) {
+    evt.waitUntil(
+      caches.keys().then(keyList => {
+        return Promise.all(
+          keyList.map(key => {
+            if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+              console.log("Removing old cache data", key);
+              return caches.delete(key);
+            }
+          })
+        );
+      })
+    );
+    self.clients.claim();
+});
 
 //Fetch 
 self.addEventListener("fetch", function(event) {
