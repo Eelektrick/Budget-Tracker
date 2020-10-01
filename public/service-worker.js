@@ -1,6 +1,3 @@
-const CACHE_NAME = "static-cache-bt2";
-const DATA_CACHE_NAME = "data-cache-bt1";
-
 const FILES_TO_CACHE = [
     "/",
     "/index.html",
@@ -11,6 +8,9 @@ const FILES_TO_CACHE = [
     "/icons/icon-192x192.png",
     "/icons/icon-512x512.png"
 ];
+
+const CACHE_NAME = "static-cache-bt2";
+const DATA_CACHE_NAME = "data-cache-bt1";
 
 //Install the cache
 self.addEventListener('install', (event) => {
@@ -23,19 +23,19 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-//Activate will clean up our previous caches
-self.addEventListener('activate', (event) =>{
-    console.log("beginning the search for older cached data")
-    const cacheDuo = [CACHE_NAME, DATA_CACHE_NAME];
-    event.waitUntil(caches.keys().then(keyList =>{
-        keyList.map(key => {
-            if (key !== cacheDuo){
-                console.log("cleaning up older iteration of cached data", key);
-                return caches.delete(key)
-            };
-        });
-    }));
-});
+// //Activate will clean up our previous caches
+// self.addEventListener('activate', (event) =>{
+//     console.log("beginning the search for older cached data")
+//     const cacheDuo = [CACHE_NAME, DATA_CACHE_NAME];
+//     event.waitUntil(caches.keys().then(keyList =>{
+//         keyList.map(key => {
+//             if (key !== cacheDuo){
+//                 console.log("cleaning up older iteration of cached data", key);
+//                 return caches.delete(key)
+//             };
+//         });
+//     }));
+// });
 
 //Fetch 
 self.addEventListener("fetch", function(event) {
